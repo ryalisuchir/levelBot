@@ -1,5 +1,10 @@
 let multiSchema = require(`../../schemas/multi`);
-const { MessageEmbed, MessageButton, MessageActionRow, Permissions } = require("discord.js");
+const {
+  MessageEmbed,
+  MessageButton,
+  MessageActionRow,
+  Permissions,
+} = require("discord.js");
 const wait = require("node:timers/promises").setTimeout;
 let CurrencyEmoji = "⏣ ";
 
@@ -15,9 +20,9 @@ module.exports = {
    * @param {String[]} args
    */
   run: async (client, message, args) => {
-		    if (!message.member.permissions.has([Permissions.FLAGS.ADMINISTRATOR]))
+    if (!message.member.permissions.has([Permissions.FLAGS.ADMINISTRATOR]))
       return;
-		
+
     let multi;
     try {
       multi = await multiSchema.findOne({
