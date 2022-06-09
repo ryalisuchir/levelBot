@@ -16,7 +16,7 @@ client.on("ready", async () => {
   client.user.setPresence({
     activities: [
       {
-        name: `Stormy Bay`,
+        name: `Leveling System`,
         type: "WATCHING",
       },
     ],
