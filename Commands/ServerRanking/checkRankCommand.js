@@ -1,10 +1,6 @@
 let currency = require(`../../schemas/leveling`);
 let multi = require(`../../schemas/multi`);
-const {
-	MessageEmbed,
-	MessageButton,
-	MessageActionRow
-} = require("discord.js");
+const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 let CurrencyEmoji = "⏣ ";
 
 module.exports = {
@@ -58,6 +54,18 @@ module.exports = {
       serverProfile.save();
     }
 
+    const status = Boolean(serverProfile.levellingDisabled === "on");
+    //will be false if off
+    //will be true if on
+    console.log(status);
+    if (serverProfile.levellingDisabled === "off")
+      return message.reply({
+        embeds: [
+          new MessageEmbed().setDescription(
+            "The leveling system in this guild has been turned off."
+          ),
+        ],
+      });
     const rankEmbed = new MessageEmbed()
       .setTitle(`${member.user.username}'s Rank`)
       .addField(
@@ -70,7 +78,9 @@ module.exports = {
         `\`\`\`yaml\n${profile.Statistics.XP.toLocaleString()}\`\`\``,
         true
       )
-      .setDescription(`Updated as of: <t:${Math.round(Date.now() / 1000)}>`)
+      .setDescription(
+        `Updated as of: <t:${Math.round(Date.now() / 1000)}>`
+      )
       .setFooter({
         text: `You have run ${profile.Statistics.CommandsUsed.length} commands since the creation of your account.`,
       })
@@ -82,7 +92,7 @@ module.exports = {
           new MessageButton()
             .setStyle("SECONDARY")
             .setDisabled(true)
-            .setLabel(`${serverProfile.multi}%`)
+            .setLabel(`Multi: ${serverProfile.multi}%`)
             .setCustomId("MultiButton") //not used
         ),
       ],
