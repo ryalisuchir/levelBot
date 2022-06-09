@@ -31,7 +31,15 @@ module.exports = {
       });
       serverProfile.save();
     }
-    console.log(args[0]);
+
+    if (serverProfile.levellingDisabled == "off")
+      return message.reply({
+        embeds: [
+          new MessageEmbed().setDescription(
+            "The leveling system in this guild has been turned off."
+          ),
+        ],
+      });
     if (!args[0])
       return message.reply({
         content: "Specify a valid multiplier level (must be an integer).",
@@ -57,6 +65,12 @@ module.exports = {
 
     let newMulti = parseInt(args[0]);
 
+    if (newMulti > 3 && message.author.id !== "893705256368750592") {
+      return message.reply({
+        content:
+          "You can only set the multiplier for this guild to a maximum value of: **3**.",
+      });
+    }
     serverProfile.multi = newMulti;
     serverProfile.save();
 
