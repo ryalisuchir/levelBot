@@ -28,6 +28,30 @@ module.exports = {
           member.displayName.toLowerCase() === args.join(" ").toLowerCase()
       ) ||
       message.member;
+    let serverProfile;
+    try {
+      serverProfile = await blacklist.findOne({
+        guildID: message.guild.id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    if (!serverProfile) {
+      serverProfile = new blacklist({
+        guildID: message.guild.id,
+        multi: 1,
+      });
+      serverProfile.save();
+    }
+
+    if (serverProfile.levellingDisabled == "off")
+      return message.reply({
+        embeds: [
+          new MessageEmbed().setDescription(
+            "The leveling system in this guild has been turned off."
+          ),
+        ],
+      });
 
     if (User.id == message.author.id)
       return message.reply({
@@ -41,7 +65,7 @@ module.exports = {
           .findOneAndDelete({ id: User.user.id })
           .catch((err) => console.log(err));
         const unblacklistEmbed = new MessageEmbed()
-          .setColor(color)
+          .setColor("303136")
           .setDescription(
             `${User.user.tag} has been removed from a blacklist.`
           );
