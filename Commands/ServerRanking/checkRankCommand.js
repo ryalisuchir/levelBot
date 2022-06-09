@@ -53,11 +53,7 @@ module.exports = {
       });
       serverProfile.save();
     }
-
-    const status = Boolean(serverProfile.levellingDisabled === "on");
-    //will be false if off
-    //will be true if on
-    console.log(status);
+console.log(serverProfile.levellingDisabled)
     if (serverProfile.levellingDisabled === "off")
       return message.reply({
         embeds: [
