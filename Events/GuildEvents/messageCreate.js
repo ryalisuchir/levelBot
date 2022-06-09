@@ -4,30 +4,18 @@ const multiSchema = require("../../schemas/multi");
 const prefix = client.config.prefix;
 
 client.on("messageCreate", async (message) => {
-
   if (message.author.bot || !message.guild || message.webhookID) return;
 
-  if (!message.content.toLowerCase().startsWith(client.config.prefix)) return;
-  if (!message.member)
-    message.member = await message.guild.fetchMember(message);
-  const [cmd, ...args] = message.content
-    .slice(client.config.prefix.length)
-    .trim()
-    .split(" ");
-
-  const command =
-    client.commands.get(cmd.toLowerCase()) ||
-    client.commands.find((c) => c.aliases?.includes(cmd.toLowerCase()));
-  if (!command) return;
-  if (!message.member.permissions.has(command.userpermissions || [])) {
-    return;
-  } else if (!message.guild.me.permissions.has(command.botpermissions || [])) {
-    return;
-  }
-
-  let enableSc = await multiSchema.findOne({
+  let enableSc;
+  enableSc = await multiSchema.findOne({
     guildID: message.guild.id,
   });
+  if (!enableSc) {
+    enableSc = new multiSchema({
+      guildID: message.guild.id,
+      levellingDisabled: 1,
+    });
+  }
 
   if (enableSc.levellingDisabled === 1) {
     multiSchema.findOne({ id: message.author.id }, async (err, dataa) => {
@@ -47,13 +35,12 @@ client.on("messageCreate", async (message) => {
         } else {
           multiBot = newMulti.multi;
         }
-        data.Statistics.CommandsUsed.push(command.name);
 
         const leveledUp = await client.functions.addXP(
           message,
           message.author.id,
           message.guild.id,
-          (Math.floor(Math.random() * 10) + 1) * multiBot
+          (Math.floor(Math.random() * 5) + 1) * multiBot
         );
         console.log(multiBot);
         const coins = await client.functions.addCoins(
@@ -85,6 +72,29 @@ client.on("messageCreate", async (message) => {
       }
     });
   }
-  await command.run(client, message, args);
 
+  if (!message.content.toLowerCase().startsWith(client.config.prefix)) return;
+  if (!message.member)
+    message.member = await message.guild.fetchMember(message);
+  const [cmd, ...args] = message.content
+    .slice(client.config.prefix.length)
+    .trim()
+    .split(" ");
+
+  const command =
+    client.commands.get(cmd.toLowerCase()) ||
+    client.commands.find((c) => c.aliases?.includes(cmd.toLowerCase()));
+  if (!command) return;
+  if (!message.member.permissions.has(command.userpermissions || [])) {
+    return;
+  } else if (!message.guild.me.permissions.has(command.botpermissions || [])) {
+    return;
+  }
+  const data2 = await client.functions.findUser(
+    message,
+    message.author.id,
+    message.guild.id
+  );
+  data2.Statistics.CommandsUsed.push(command.name);
+  await command.run(client, message, args);
 });
