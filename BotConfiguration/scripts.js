@@ -82,7 +82,7 @@ const addXP = async (message, userID, guildID, amount) => {
   let bool = false;
   data.Statistics.XP += amount;
 
-  if (data.Statistics.XP >= data.Statistics.Level * 100) {
+  if (data.Statistics.XP >= (data.Statistics.Level * 1000 + 300)) {
     data.Statistics.XP = 0;
     data.Statistics.Level++;
     data.coins += 1200 * data.Statistics.Level;
