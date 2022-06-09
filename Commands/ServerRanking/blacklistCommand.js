@@ -43,7 +43,7 @@ module.exports = {
       });
       serverProfile.save();
     }
-
+console.log(serverProfile.levellingDisabled)
     if (serverProfile.levellingDisabled == "off")
       return message.reply({
         embeds: [
