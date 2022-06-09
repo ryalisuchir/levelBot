@@ -40,7 +40,7 @@ module.exports = {
     }
     //disabled
     let sentMsg;
-    if (multi.levellingDisabled === 2) {
+    if (multi.levellingDisabled === "off") {
       sentMsg = await message.reply({
         content: `Use the interaction below:`,
         components: [
@@ -107,7 +107,7 @@ module.exports = {
         } catch (err) {
           console.log(err);
         }
-        multiEnable.levellingDisabled = 1;
+        multiEnable.levellingDisabled = "on";
         multiEnable.save();
         await i.editReply({
           content: "The levelling system for this guild has been turned on.",
@@ -125,7 +125,7 @@ module.exports = {
         } catch (err) {
           console.log(err);
         }
-        multiDisable.levellingDisabled = 2;
+        multiDisable.levellingDisabled = "off";
         multiDisable.save();
         await i.editReply({
           content: "The levelling system for this guild has been turned off.",
