@@ -4,10 +4,10 @@ const multi = mongoose.Schema({
   guildID: {
     type: String,
   },
-	id: String,
+  id: String,
   levellingDisabled: {
-    type: Number,
-    default: 1,
+    type: String,
+    default: "on",
   },
   multi: {
     type: Number,
