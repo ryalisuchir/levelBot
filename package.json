@@ -1,0 +1,42 @@
+{
+  "name": "communityBot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "fm": "prettier --write .",
+    "test": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/rest": "^0.4.1",
+    "amaribot.js": "^1.5.0",
+    "axios": "^0.26.1",
+    "canvas": "^2.8.0",
+    "chalk": "^4.1.2",
+    "discord.js": "^13.8.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "glob": "^7.2.0",
+    "is-electron": "^2.2.1",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
+    "mongoose": "^6.2.7",
+    "ms": "^2.1.3",
+    "node-fetch": "^2.6.7",
+    "parse-ms": "^2.1.0",
+    "prettier": "^2.6.2",
+    "pretty-ms": "^7.0.1",
+    "quick.db": "^7.1.3",
+    "quickmongo": "^5.1.1",
+    "txtgen": "^3.0.1",
+    "util": "^0.12.4"
+  },
+  "devDependencies": {
+    "node": "^16.13.2"
+  },
+  "description": "",
+  "module": "es2015"
+}
