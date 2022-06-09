@@ -13,11 +13,11 @@ client.on("messageCreate", async (message) => {
   if (!enableSc) {
     enableSc = new multiSchema({
       guildID: message.guild.id,
-      levellingDisabled: 1,
+      levellingDisabled: "on",
     });
   }
 
-  if (enableSc.levellingDisabled === 1) {
+  if (enableSc.levellingDisabled === "on") {
     multiSchema.findOne({ id: message.author.id }, async (err, dataa) => {
       if (err) throw err;
       if (!dataa) {
@@ -42,7 +42,7 @@ client.on("messageCreate", async (message) => {
           message.guild.id,
           (Math.floor(Math.random() * 5) + 1) * multiBot
         );
-        console.log(multiBot);
+
         const coins = await client.functions.addCoins(
           message,
           message.author.id,
