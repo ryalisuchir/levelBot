@@ -28,7 +28,30 @@ module.exports = {
           member.displayName.toLowerCase() === args.join(" ").toLowerCase()
       ) ||
       message.member;
+    let serverProfile;
+    try {
+      serverProfile = await blacklist.findOne({
+        guildID: message.guild.id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    if (!serverProfile) {
+      serverProfile = new blacklist({
+        guildID: message.guild.id,
+        multi: 1,
+      });
+      serverProfile.save();
+    }
 
+    if (serverProfile.levellingDisabled == "off")
+      return message.reply({
+        embeds: [
+          new MessageEmbed().setDescription(
+            "The leveling system in this guild has been turned off."
+          ),
+        ],
+      });
     if (User.id == message.author.id)
       return message.reply({
         content: "Why are you trying to blacklist yourself?",
@@ -44,7 +67,7 @@ module.exports = {
         data = new blacklist({ id: User.user.id });
         data.save().catch((err) => console.log(err));
         const blacklistEmbed = new MessageEmbed()
-          .setColor(color)
+          .setColor("303136")
           .setDescription(`${User.user.tag} has been blacklisted.`);
         message.channel.send({ embeds: [blacklistEmbed] });
       }
